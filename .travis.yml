@@ -1,3 +1,22 @@
 language: node_js
 node_js: 
  - "node"
+
+ env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "JmEiIIjifZQPd9nou53qf3X6HeXCOxW3ahH58P2WWJEbYbZNynljLpqJrKONfKoVE3k6Wn8Yp1wSpwyTPSzL9CYj8QNyiqUoAstfR4OUpx50CVxCnbkhpy7sP1jklBLh/Wj4JzbyhsesR6qa8fspC/QszD+YGWtk4KcklY/FFZT5IhMVSkMkGpT0YfAqN7DSMVf/BRLza4gRMhLAlX92HOzTNdcE9zUNpui+0YWT4ZXvLNeo7KQneD4WwyPMt3gr5IdCJ3d2FQxIsKHJ/V4b6nbhrPEEgrWq7HCOARhNUjzjxvExqv6V/ndzzhUmXzm5GUK6DkyglzqiA+TQI2NQl6El6/tpgWCXyhEeiVYNaiq71T2r8we9PyYdxhiEepkirsDI7XWi9ao7qMsPZP8Wl0RUQ+Ns98bWC145xWm45I1t4bYBn28o0E9uyHQb+OntahovF2A4o2mOHgqayZH6+f/fFpjd4GBEL4WBp9mvhDueLI15up32+KLgVUyQXStQAI4LsKGq8Uxh+zdnTDktuYNQ4LbTR5CeunRxHbgqg3QBcmEEeilEaqhM8qUxaZSGXopOZCmoEEF0f6iSxzQ+pZteFeVQz4lrciyz4uk7t7BrjM1c8lFB3Iw21DEj0QOb775dBa9AvMbZipCkZfmmRKSP4ZUZ1yz3fhvJnpZeyyA="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "RigidasSoftware/linn-channel-core"
+      description: "Build submitted via Travis CI"
+    notification_email: development@rigidassoftware.co.uk
+    build_command_prepend: ""
+    build_command:   ""
+    branch_pattern: coverity_scan
