@@ -10,11 +10,12 @@ describe('Config', function(){
      describe('AddNewUserRequest', function() {
 
         it("constructor should set properties", function() {
-            var addNewUserRequest = new Config.AddNewUserRequest("token");
-            expect(addNewUserRequest.AuthorisationToken).to.equal("");
-            expect(addNewUserRequest.LinnworksUniqueIdentifier).to.equal("");
-            expect(addNewUserRequest.Email).to.equal("");
-            expect(addNewUserRequest.AccountName).to.equal("");
+            var addNewUserRequest = new Config.AddNewUserRequest("provider", "token", "id", "email1", "accountA");
+            expect(addNewUserRequest.Provider).to.equal("provider");
+            expect(addNewUserRequest.AuthorisationToken).to.equal("token");
+            expect(addNewUserRequest.LinnworksUniqueIdentifier).to.equal("id");
+            expect(addNewUserRequest.Email).to.equal("email1");
+            expect(addNewUserRequest.AccountName).to.equal("accountA");
         });
 
     })
@@ -23,7 +24,7 @@ describe('Config', function(){
 
         it("constructor should set properties", function() {
             var addNewUserResponse = new Config.AddNewUserResponse("token");
-            expect(addNewUserResponse.Error).to.equal(null);
+            expect(addNewUserResponse.Error).to.equal(undefined);
             expect(addNewUserResponse.AuthorisationToken).to.equal("token");
         });
 
@@ -33,8 +34,10 @@ describe('Config', function(){
 
         it("constructor should set default properties", function() {
 
-            var saveUserConfigRequest = new Config.SaveUserConfigRequest();
+            var saveUserConfigRequest = new Config.SaveUserConfigRequest("provider", "token");
 
+            expect(saveUserConfigRequest.Provider).to.equal("provider");
+            expect(saveUserConfigRequest.AuthorisationToken).to.equal("token");
             expect(saveUserConfigRequest.StepName).to.equal("");
             expect(saveUserConfigRequest.ConfigItems.length).to.equal(0);
         });
@@ -54,14 +57,13 @@ describe('Config', function(){
                 }
             ];
 
-            var userConfigResponse = new Config.UserConfigResponse("step1", "titleAB", "a description", configItems);
+            var userConfigResponse = new Config.UserConfigResponse("step1", "titleAB", "a description", configItems, "error1");
 
-            expect(userConfigResponse.Error).to.equal(null);
+            expect(userConfigResponse.Error).to.equal("error1");
             expect(userConfigResponse.StepName).to.equal('step1');
             expect(userConfigResponse.WizardStepTitle).to.equal('titleAB');
             expect(userConfigResponse.WizardStepDescription).to.equal('a description');
             expect(userConfigResponse.ConfigItems).to.equal(configItems);
-
         });
 
     })
