@@ -20,3 +20,5 @@ The classes within are fully tested and any changes must be submitted with tests
 To have your integration approved and hosted by Rigidas Software, the objects returned by its functions must conform to the structures defined in this package. These will be explained in further detail in the relevant sections below.
 
 ### Introduction ###
+
+Instructions to come.
