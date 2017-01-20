@@ -1,5 +1,5 @@
 {
-  "name": "linn-channel-core",
+  "name": "linn-channel-core" ,
   "version": "1.0.6",
   "description": "Core library for Linnworks Channels by Rigidas",
   "main": "lib/index.js",
