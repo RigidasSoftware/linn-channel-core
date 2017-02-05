@@ -12,7 +12,7 @@ describe('Config', function(){
         it("constructor should set properties", function() {
             var addNewUserRequest = new Config.AddNewUserRequest("provider", "token", "id", "email1", "accountA");
             expect(addNewUserRequest.Provider).to.equal("provider");
-            expect(addNewUserRequest.AuthorisationToken).to.equal("token");
+            expect(addNewUserRequest.AuthorizationToken).to.equal("token");
             expect(addNewUserRequest.LinnworksUniqueIdentifier).to.equal("id");
             expect(addNewUserRequest.Email).to.equal("email1");
             expect(addNewUserRequest.AccountName).to.equal("accountA");
@@ -25,7 +25,7 @@ describe('Config', function(){
         it("constructor should set properties", function() {
             var addNewUserResponse = new Config.AddNewUserResponse("token");
             expect(addNewUserResponse.Error).to.equal(undefined);
-            expect(addNewUserResponse.AuthorisationToken).to.equal("token");
+            expect(addNewUserResponse.AuthorizationToken).to.equal("token");
         });
 
     })
@@ -37,7 +37,7 @@ describe('Config', function(){
             var saveUserConfigRequest = new Config.SaveUserConfigRequest("provider", "token");
 
             expect(saveUserConfigRequest.Provider).to.equal("provider");
-            expect(saveUserConfigRequest.AuthorisationToken).to.equal("token");
+            expect(saveUserConfigRequest.AuthorizationToken).to.equal("token");
             expect(saveUserConfigRequest.StepName).to.equal("");
             expect(saveUserConfigRequest.ConfigItems.length).to.equal(0);
         });
