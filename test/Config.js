@@ -24,7 +24,7 @@ describe('Config', function(){
 
         it("constructor should set properties", function() {
             var addNewUserResponse = new Config.AddNewUserResponse("token");
-            expect(addNewUserResponse.Error).to.equal(undefined);
+            expect(addNewUserResponse.Error).to.equal("");
             expect(addNewUserResponse.AuthorizationToken).to.equal("token");
         });
 
