@@ -108,8 +108,9 @@ describe('Product', function(){
 
         it("constructor should set properties", function() {
 
-            var productsRequest = new Product.ProductInventory("sku1", 5);
+            var productsRequest = new Product.ProductInventory("prod|opt", "sku1", 5);
 
+            expect(productsRequest.Reference).to.equal("prod|opt");
             expect(productsRequest.SKU).to.equal("sku1");
             expect(productsRequest.Quantity).to.equal(5);
 
@@ -138,8 +139,8 @@ describe('Product', function(){
         it("constructor should set properties", function() {
 
             var products = [
-                new Product.ProductInventory("sku1", 75),
-                new Product.ProductInventory("sku2", 1)
+                new Product.ProductInventory("prod|a","sku1", 75),
+                new Product.ProductInventory("prod|b","sku2", 1)
             ]
             var updateRequest = new Product.ProductInventoryUpdateRequest("create", "token1", products);
 
