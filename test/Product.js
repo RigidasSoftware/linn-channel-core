@@ -39,7 +39,7 @@ describe('Product', function(){
           it("constructor should complain about products type", function() {
 
              var products = [
-                new Product.ProductInventoryError("sku1")
+                new Product.ProductInventoryResponse("sku1")
             ]
 
             try {
@@ -90,10 +90,6 @@ describe('Product', function(){
          describe('error', function() {
             it("should return an error result", function() {
 
-                var products = [
-                    new Product.Product("ref|opt", "sku1", "i am a title", 8.92, 74)
-                ];
-
                 var productsResponse = Product.ProductsResponse.error("i am broke");
 
                 expect(productsResponse.Error).to.equal("i am broke");
@@ -122,8 +118,8 @@ describe('Product', function(){
         it("constructor should complain about products type", function() {
 
              var products = [
-                new Product.ProductInventoryError("sku1"),
-                new Product.ProductInventoryError("sku2")
+                new Product.ProductInventoryResponse("sku1"),
+                new Product.ProductInventoryResponse("sku2")
             ]
 
             try {
@@ -150,14 +146,14 @@ describe('Product', function(){
         });
     })
 
-    describe('ProductInventoryError', function() {
+    describe('ProductInventoryResponse', function() {
 
         it("constructor should set properties", function() {
 
-            var productInventoryError = new Product.ProductInventoryError("sku1", "i am broke");
+            var ProductInventoryResponse = new Product.ProductInventoryResponse("sku1", "i am broke");
 
-            expect(productInventoryError.Error).to.equal("i am broke");
-            expect(productInventoryError.SKU).to.equal("sku1");
+            expect(ProductInventoryResponse.Error).to.equal("i am broke");
+            expect(ProductInventoryResponse.SKU).to.equal("sku1");
         });
     });
 
@@ -199,7 +195,7 @@ describe('Product', function(){
                 throw "should not hit here";
             }
             catch(ex){
-                expect(ex).to.equal("products must be type of ProductInventoryError[]");
+                expect(ex).to.equal("products must be type of ProductInventoryResponse[]");
             }
 
         });
@@ -207,13 +203,23 @@ describe('Product', function(){
         it("constructor should set properties", function() {
 
             var products = [
-                new Product.ProductInventoryError("sku1"),
-                new Product.ProductInventoryError("sku2")
+                new Product.ProductInventoryResponse("sku1"),
+                new Product.ProductInventoryResponse("sku2")
             ]
             var updateResponse = new Product.ProductInventoryUpdateResponse(products, "it broke");
 
             expect(updateResponse.Products).to.equal(products);
             expect(updateResponse.Error).to.equal("it broke");
         });
+
+        describe('error', function() {
+            it("should return an error result", function() {
+
+                var productsResponse = Product.ProductInventoryUpdateResponse.error("i am broke");
+
+                expect(productsResponse.Error).to.equal("i am broke");
+                expect(productsResponse.Products.length).to.equal(0);
+            });
+         });
     })
 });
