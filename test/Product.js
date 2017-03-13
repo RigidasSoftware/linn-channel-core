@@ -76,10 +76,6 @@ describe('Product', function(){
 
         it("constructor with error", function() {
 
-            var products = [
-                new Product.Product("ref|opt", "sku1", "i am a title", 8.92, 74)
-            ];
-
             var productsResponse = new Product.ProductsResponse(null, null, "i am broke");
 
             expect(productsResponse.Error).to.equal("i am broke");
