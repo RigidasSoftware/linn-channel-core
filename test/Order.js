@@ -22,7 +22,7 @@ describe('Order', function(){
 
             var address = new Order.Address();
 
-            expect(address.Fullname).to.equal(undefined);
+            expect(address.FullName).to.equal(undefined);
             expect(address.Company).to.equal(undefined);
             expect(address.Address1).to.equal(undefined);
             expect(address.Address2).to.equal(undefined);
@@ -41,7 +41,7 @@ describe('Order', function(){
 
             var address = new Order.Address("a man", "rigidas software", "five houses", "long road", "copse bridge", "tiny town", "region of doom", "RI7 7HS", "Knights Kingdom", "KK", "0722813740", "long@email.com");
 
-            expect(address.Fullname).to.equal("a man");
+            expect(address.FullName).to.equal("a man");
             expect(address.Company).to.equal("rigidas software");
             expect(address.Address1).to.equal("five houses");
             expect(address.Address2).to.equal("long road");
