@@ -16,6 +16,15 @@ describe('Order', function(){
         });
     })
 
+    describe('DiscountType', function() {
+
+        it("Check values are correct", function() {
+            expect(Order.DiscountType.AllEvenly).to.equal("AllEvenly");
+            expect(Order.DiscountType.ItemsThenPostage).to.equal("ItemsThenPostage");
+            expect(Order.DiscountType.PostageThenItems).to.equal("PostageThenItems");
+        });
+    })
+
     describe('Address', function() {
 
         it("constructor should set default properties", function() {
@@ -33,8 +42,7 @@ describe('Order', function(){
             expect(address.Country).to.equal("United Kingdom");
             expect(address.CountryCode).to.equal("UK");
             expect(address.PhoneNumber).to.equal(undefined);
-            expect(address.EmailAddress).to.equal(undefined);
-            
+            expect(address.EmailAddress).to.equal(undefined);            
         });
 
         it("constructor should set properties", function() {
@@ -163,12 +171,13 @@ describe('Order', function(){
 
         it("constructor should set properties", function() {
 
-            var item = new Order.OrderItem(7, 'sku71', 'a title I am', 38);
+            var item = new Order.OrderItem(7, 'sku71', 'a title I am', 38, 15.67);
 
             expect(item.OrderLineNumber).to.equal(7);
             expect(item.SKU).to.equal("sku71");
             expect(item.ItemTitle).to.equal('a title I am');
             expect(item.Qty).to.equal(38);
+            expect(item.PricePerUnit).to.equal(15.67);
             
         });
 
@@ -250,8 +259,7 @@ describe('Order', function(){
             expect(order.ReferenceNumber).to.equal("ref7");
             expect(order.PaymentStatus).to.equal(Order.PaymentStatus.UNPAID);
             expect(order.Site).to.equal('ES');
-            expect(order.Currency).to.equal('USD');
-            
+            expect(order.Currency).to.equal('USD');            
         });
 
         it("constructor should throw errors", function() {
@@ -277,7 +285,7 @@ describe('Order', function(){
 
             var order = new Order.Order("ref7", Order.PaymentStatus.PAID);
 
-            expect(order.Site).to.equal("UK");
+            expect(order.Site).to.equal("");
             expect(order.BillingAddress).to.be.instanceOf(Order.Address);
             expect(order.DeliveryAddress).to.be.instanceOf(Order.Address);
             expect(order.OrderItems.length).to.equal(0);
@@ -295,7 +303,8 @@ describe('Order', function(){
             expect(order.PaidOn).to.equal(null);
             expect(order.PostalServiceCost).to.equal(0);
             expect(order.PostalServiceTaxRate).to.equal(0);
-            
+            expect(order.Discount).to.equal(0);
+            expect(order.DiscountType).to.equal(Order.DiscountType.AllEvenly);            
         });
     });
 
