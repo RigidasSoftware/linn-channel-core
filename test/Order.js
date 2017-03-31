@@ -254,9 +254,9 @@ describe('Order', function(){
 
         it("constructor should set properties", function() {
 
-            var order = new Order.Order("ref7", Order.PaymentStatus.UNPAID, "ES", "USD");
+            var order = new Order.Order(1234, Order.PaymentStatus.UNPAID, "ES", "USD");
 
-            expect(order.ReferenceNumber).to.equal("ref7");
+            expect(order.ReferenceNumber).to.equal("1234");
             expect(order.PaymentStatus).to.equal(Order.PaymentStatus.UNPAID);
             expect(order.Site).to.equal('ES');
             expect(order.Currency).to.equal('USD');            
