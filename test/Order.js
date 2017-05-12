@@ -392,5 +392,200 @@ describe('Order', function(){
                 expect(ordersResponse.Orders.length).to.equal(0);
             });
          });
+    });
+
+    describe('OrderDespatchItem', function() {
+
+        it("constructor should set properties", function() {
+
+            var despatchItem = new Order.OrderDespatchItem("sku1", 7, 48);
+
+            expect(despatchItem.SKU).to.equal("sku1");
+            expect(despatchItem.OrderLineNumber).to.equal(7);
+            expect(despatchItem.DespatchedQuantity).to.equal(48);
+        });
+
+        it("constructor should set default properties", function() {
+
+            var despatchItem = new Order.OrderDespatchItem();
+
+            expect(despatchItem.SKU).to.equal("");
+            expect(despatchItem.OrderLineNumber).to.equal(0);
+            expect(despatchItem.DespatchedQuantity).to.equal(1);
+        });
     })
+
+    describe('OrderDespatch', function() {
+
+        it("constructor should set properties", function() {
+
+            var secondaryTracking = [
+                "GX7716BJB",
+                "GX7716BJC"
+            ]
+            var date = new Date('2017/08/03 18:12:43');
+
+            var items = [
+                new Order.OrderDespatchItem("sku1", 7, 48),
+                new Order.OrderDespatchItem("sku2", 4, 8)
+            ]
+
+            var orderDespatch = new Order.OrderDespatch("refABC1", "Royal Mail", "1st Class", "GX7716BJA", secondaryTracking, date, items);
+
+            expect(orderDespatch.ReferenceNumber).to.equal("refABC1");
+            expect(orderDespatch.ShippingVendor).to.equal("Royal Mail");
+            expect(orderDespatch.ShippingMethod).to.equal("1st Class");
+            expect(orderDespatch.TrackingNumber).to.equal("GX7716BJA");
+            expect(orderDespatch.SecondaryTrackingNumbers).to.equal(secondaryTracking);
+            expect(orderDespatch.ProcessedOn).to.equal(date);
+            expect(orderDespatch.Items).to.equal(items);
+
+        });
+
+        it("constructor should set default properties", function() {
+
+            var date = new Date('2017/08/03 18:12:43');
+
+            var items = [
+                new Order.OrderDespatchItem("sku1", 7, 48),
+                new Order.OrderDespatchItem("sku2", 4, 8)
+            ]
+
+            var orderDespatch = new Order.OrderDespatch();
+
+            expect(orderDespatch.ReferenceNumber).to.equal("");
+            expect(orderDespatch.ShippingVendor).to.equal("");
+            expect(orderDespatch.ShippingMethod).to.equal("");
+            expect(orderDespatch.TrackingNumber).to.equal("");
+            expect(orderDespatch.SecondaryTrackingNumbers.length).to.equal(0);
+
+            expect(orderDespatch.ProcessedOn).to.be.instanceOf(Date);
+            var diff = new Date() - orderDespatch.ProcessedOn;
+            expect(diff).to.be.greaterThan(-1);
+            expect(diff).to.be.lessThan(10000);
+
+            expect(orderDespatch.Items.length).to.equal(0);
+        });
+
+        it("constructor should complain about items type", function() {
+
+            var items = [
+                new Order.OrdersResponse("sku1")
+            ]
+
+            try {
+                new Order.OrderDespatch("refABC1", "Royal Mail", "1st Class", "GX7716BJA", [], new Date(), items);
+                throw "should not hit here";
+            }
+            catch(ex){
+                expect(ex).to.equal("items must be type of OrderDespatchItem[]");
+            }
+
+        });
+    })
+
+    describe('OrderDespatchError', function() {
+
+        it("constructor should set properties", function() {
+
+            var orderDespatchError = new Order.OrderDespatchError("ref1", "i am an error");
+
+            expect(orderDespatchError.ReferenceNumber).to.equal("ref1");
+            expect(orderDespatchError.Error).to.equal("i am an error");
+
+        });
+
+        it("constructor should set default properties", function() {
+
+            var orderDespatchError = new Order.OrderDespatchError();
+
+            expect(orderDespatchError.ReferenceNumber).to.equal("");
+            expect(orderDespatchError.Error).to.equal("");
+
+        });
+
+        describe('error', function() {
+
+            it("constructor should set default properties", function() {
+
+                var orderDespatchError = Order.OrderDespatchError.error("i am an error");
+
+                expect(orderDespatchError.ReferenceNumber).to.equal("");
+                expect(orderDespatchError.Error).to.equal("i am an error");
+
+            });
+
+        })
+
+    })
+
+    describe('OrderDespatchRequest', function() {
+
+        it("constructor should set properties", function() {
+
+            var orders = [
+                new Order.OrderDespatch("refa")
+            ]
+
+            var orderDespatchRequest = new Order.OrderDespatchRequest("create", "token1", orders);
+
+            expect(orderDespatchRequest.Provider).to.equal("create");
+            expect(orderDespatchRequest.AuthorizationToken).to.equal("token1");
+            expect(orderDespatchRequest.Orders).to.equal(orders);
+
+        });
+
+        it("constructor should set default properties", function() {
+
+            var orderDespatchRequest = new Order.OrderDespatchRequest();
+
+            expect(orderDespatchRequest.Orders.length).to.equal(0);
+
+        });
+
+    })
+
+    describe('OrderDespatchResponse', function() {
+
+        it("constructor should set properties", function() {
+
+            var orders = [
+                new Order.OrderDespatchError("red1"),
+                new Order.OrderDespatchError("red2", "i broke, god damn!")
+            ];
+
+            var orderDespatchResponse = new Order.OrderDespatchResponse(orders, "even bigger error");
+
+            expect(orderDespatchResponse.Orders).to.equal(orders);
+            expect(orderDespatchResponse.Error).to.equal("even bigger error");
+
+        });
+
+        it("constructor should set default properties", function() {
+
+            var orderDespatchResponse = new Order.OrderDespatchResponse();
+
+            expect(orderDespatchResponse.Orders.length).to.equal(0);
+            expect(orderDespatchResponse.Error).to.equal("");
+
+        });
+
+        it("constructor should complain about items type", function() {
+
+            var orders = [
+                new Order.OrdersResponse()
+            ]
+
+            try {
+                var orderDespatchResponse = new Order.OrderDespatchResponse(orders);
+                throw "should not hit here";
+            }
+            catch(ex){
+                expect(ex).to.equal("orders must be type of OrderDespatchError[]");
+            }
+
+        });
+
+    })
+
 });
