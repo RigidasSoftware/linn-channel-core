@@ -586,6 +586,19 @@ describe('Order', function(){
 
         });
 
+        describe('error', function() {
+
+            it("constructor should set default properties", function() {
+
+                var orderDespatchResponse = Order.OrderDespatchResponse.error("i am an error");
+
+                expect(orderDespatchResponse.Orders.length).to.equal(0);
+                expect(orderDespatchResponse.Error).to.equal("i am an error");
+
+            });
+
+        })
+
     })
 
 });
