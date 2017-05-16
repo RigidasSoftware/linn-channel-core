@@ -3,6 +3,8 @@ var chai = require('chai'),
     should = chai.should(),
     Order = require('../lib/Order.js');
 
+chai.use(require('chai-datetime'));
+
 //--debug-brk" add this to the test script to hit breakpoints
 
 describe('Order', function(){
@@ -300,7 +302,7 @@ describe('Order', function(){
             expect(order.Currency).to.equal('GBP');
             expect(order.ReceivedDate).to.be.instanceOf(Date);
             expect(order.DispatchBy).to.be.instanceOf(Date);
-            expect(order.PaidOn).to.equal(null);
+            expect(order.PaidOn).to.equalDate(new Date('0001-01-01'));
             expect(order.PostalServiceCost).to.equal(0);
             expect(order.PostalServiceTaxRate).to.equal(0);
             expect(order.Discount).to.equal(0);
